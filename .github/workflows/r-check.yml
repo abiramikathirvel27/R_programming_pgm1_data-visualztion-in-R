@@ -1,0 +1,42 @@
+name: R Programming Assignment Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check-r-program:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Step 1: Get the student's code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Install R
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+
+      # Step 3: Install ggplot2
+      - name: Install ggplot2
+        run: |
+          Rscript -e 'install.packages("ggplot2", repos="https://cloud.r-project.org")'
+
+      # Step 4: Check R file exists
+      - name: Check R program
+        run: |
+          test -f ggplot2_program.R
+
+      # Step 5: Execute R program
+      - name: Run R program
+        run: |
+          Rscript ggplot2_program.R
+
+      # Step 6: Display success message
+      - name: Assignment completed
+        run: |
+          echo "======================================"
+          echo "GGPlot2 Assignment Passed Successfully"
+          echo "======================================"
